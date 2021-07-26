@@ -6,12 +6,16 @@
         xmlns:local="clr-namespace:GymManagementSystem.View"
         mc:Ignorable="d"
         Title="Registration" Height="550" Width="850"
-        Icon="../Images/logo2.jpg">
+        Icon="../Images/logo2.jpg"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Topmost="True">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <Image Source="../Images/bgc4.jpg" Stretch="Fill" RenderTransformOrigin="0.478,0.438" Height="519" VerticalAlignment="Bottom"/>
+        <Image Source="../Images/bgc4.jpg" Stretch="Fill" RenderTransformOrigin="0.478,0.438" Height="520" VerticalAlignment="Bottom" Margin="0,0,0.2,0.8"/>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
