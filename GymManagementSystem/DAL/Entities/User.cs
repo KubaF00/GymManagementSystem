@@ -10,12 +10,12 @@ namespace GymManagementSystem.DAL.Entities
     class User
     {
         #region Properties
-        public int UserID { get; set; }
-        public string TicketCode { get; set; }
+        public long UserID { get; set; }
+        public string? TicketCode { get; set; }
         public string LocationID { get; set; }
         public string UserType { get; set; }
         public DateTime CreationDate { get; set; }
-        public DateTime TicketExpiration { get; set; }
+        public DateTime? TicketExpiration { get; set; }
 
         #endregion
 
@@ -30,14 +30,60 @@ namespace GymManagementSystem.DAL.Entities
             TicketExpiration = DateTime.Parse(reader["data_wyg_karnetu"].ToString());
         }
 
-        public User(int userID, string ticketCode, string locationID, string userType, DateTime creationDate, DateTime ticketExpiration)
+        public User(long id_użytkownika, string kod_karnetu, string id_lokalizacji, string typ_użytkownika, DateTime data_utworzenia, DateTime data_wyg_karnetu)
         {
-            UserID = userID; TicketCode = ticketCode; LocationID = locationID; UserType = userType;
-            CreationDate = creationDate; TicketExpiration = ticketExpiration;
+            UserID = id_użytkownika;
+            TicketCode = kod_karnetu;
+            LocationID = id_lokalizacji;
+            UserType = typ_użytkownika;
+            CreationDate = data_utworzenia;
+            TicketExpiration = data_wyg_karnetu;
+        }
+
+        public User(List<User> list, long id)
+        {
+            foreach (User u in list)
+                if (u.UserID == id)
+                {
+                    UserID = u.UserID; TicketCode = u.TicketCode; u.LocationID = LocationID;
+                    UserType = u.UserType; CreationDate = u.CreationDate; TicketExpiration = u.TicketExpiration;
+                    break;
+                }
+        }
+
+        public User(long userID, string locationID, DateTime creationDate)
+        {
+            UserID = userID;
+            LocationID = locationID;
+            UserType = "klient";
+            CreationDate = creationDate;
+            TicketCode = null;
+            TicketExpiration = null;
+        }
+
+        public User(bool isDefault) 
+        {
+            UserID = 0;
+            TicketCode = null;
+            TicketExpiration = null;
+            LocationID = "0";
+            UserType = "klient";
+            CreationDate = DateTime.Now.Date;
         }
         #endregion
 
         #region Methods
+        public string ToInsert()
+        {
+            return $"('{UserID}', '{LocationID}', '{UserType}','{DateTime.Now.ToString("yyyy-MM-dd")}')";
+        }
+
+        public string GetPassType()
+        {
+            if (TicketCode.Equals("ROCZ")) return "Roczny";
+            else if (TicketCode.Equals("KWART")) return "Kwartalny";
+            else return "Miesięczny";
+        }
         #endregion
     }
 }

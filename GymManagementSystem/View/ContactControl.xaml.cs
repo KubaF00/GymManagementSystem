@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace GymManagementSystem.View
 {
     /// <summary>
-    /// Interaction logic for RegistrationPanel.xaml
+    /// Interaction logic for ContactControl.xaml
     /// </summary>
-    public partial class RegistrationPanel : UserControl
+    public partial class ContactControl : UserControl
     {
-        public RegistrationPanel()
+        public ContactControl()
         {
             InitializeComponent();
         }

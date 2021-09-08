@@ -16,13 +16,23 @@ using System.Windows.Shapes;
 namespace GymManagementSystem.View
 {
     /// <summary>
-    /// Interaction logic for RegistrationPanel.xaml
+    /// Interaction logic for MainPanel.xaml
     /// </summary>
-    public partial class RegistrationPanel : UserControl
+    public partial class MainPanel : UserControl
     {
-        public RegistrationPanel()
+        public MainPanel()
         {
             InitializeComponent();
+        }
+
+        private void Tg_Btn_Unchecked(object sender, RoutedEventArgs e)
+        {
+            img_bg.Opacity = 1;
+        }
+
+        private void Tg_Btn_Checked(object sender, RoutedEventArgs e)
+        {
+            img_bg.Opacity = 0.3;
         }
     }
 }

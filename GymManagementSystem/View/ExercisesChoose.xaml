@@ -1,0 +1,167 @@
+﻿<UserControl x:Class="GymManagementSystem.View.ExercisesChoose"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GymManagementSystem.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="850"
+             Background="Black">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="7.3*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="11*" />
+            </Grid.ColumnDefinitions>
+            <Button 
+                Grid.Column="0" 
+                Background="Transparent" 
+                Margin="10"
+                Command="{Binding BackToMainPanel}"
+                BorderThickness="0">
+                <StackPanel>
+                    <Image Margin="10" Source="../Assets/leftArrow1.png" />
+                </StackPanel>
+            </Button>
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Image Margin="0,0,-350,-7" Source="../Images/bgc4_copy.jpg" Stretch="Fill" Grid.ColumnSpan="4" RenderTransformOrigin="0.478,0.438" Grid.RowSpan="3"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+                <TextBlock FontSize="30" 
+                   FontWeight="Bold" 
+                   Grid.ColumnSpan="4" 
+                   Grid.Row="0" 
+                   HorizontalAlignment="Center"
+                   Foreground="White" Margin="74,0,73,0" Grid.RowSpan="3">Zapisz się na trening, to nie takie trudne :)</TextBlock>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                    Grid.Column="2"
+                    Text="Rodzaj Treningu"
+                    Foreground="White"
+                    FontStyle="Italic"
+                    FontSize="25"
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center" Margin="6,24,8,10" Height="50"/>
+                    <ListBox Grid.Column="3" Width="225" Height="70">
+                        <ListBoxItem>Wyciskanie</ListBoxItem>
+                        <ListBoxItem>Sztanga</ListBoxItem>
+                        <ListBoxItem>ketle</ListBoxItem>
+                        <ListBoxItem>Zumba</ListBoxItem>
+                        <ListBoxItem>Joga</ListBoxItem>
+                    </ListBox>
+                    <TextBlock
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Text="Data"
+                    Foreground="White"
+                    FontStyle="Italic"
+                    FontSize="25"
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+                    <DatePicker 
+                    Grid.Column="1" 
+                    Margin="0,32,0,26"
+                    Height="28px"/>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="Trener"
+                    Foreground="White"
+                    FontStyle="Italic"
+                    FontSize="25"
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+                    <ListBox Grid.Column="1" Width="200" Height="70">
+                        <ListBoxItem>Tomek</ListBoxItem>
+                        <ListBoxItem>Krzysiu</ListBoxItem>
+                        <ListBoxItem>Paweł</ListBoxItem>
+                        <ListBoxItem>Janek</ListBoxItem>
+                        <ListBoxItem>Kasia</ListBoxItem>
+                    </ListBox>
+                    <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Text="Lokalizacja"
+                    Foreground="White"
+                    FontStyle="Italic"
+                    FontSize="25"
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+                    <ListBox 
+                        Grid.Column="3" 
+                        Width="225" 
+                        Height="70"
+                        ItemsSource="{Binding AllLocations}"/>
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0"
+                        x:Name="BackToPanelButton"
+                        Content="Wróć"
+                        Margin="5"
+                        Command="{Binding BackToPanel}"
+                        FontStyle="Italic"
+                        FontSize="25px"
+                        FontWeight="DemiBold"
+                        Background="White"
+                        BorderThickness="1px"
+                        />
+                    <Button Grid.Column="1"
+                        x:Name="SaveButton"
+                        Content="Zapisz"
+                        Margin="5"
+                        Command="{Binding SaveExercises}"
+                        FontStyle="Italic"
+                        FontSize="25px"
+                        FontWeight="DemiBold"
+                        Background="Red"
+                        BorderThickness="1px"
+                        />
+                </Grid>
+                <Grid Grid.Row="4">
+                    <ListBox Name="listboxExercises"
+                         FontSize="20" 
+                         Margin="10"
+                         Background= "WhiteSmoke"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

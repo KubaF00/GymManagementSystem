@@ -3,6 +3,10 @@
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C3AABF59-1292-4A58-8E51-A80D25B3F436}</ProjectGuid>
@@ -38,6 +42,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.90\lib\net461\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -46,6 +53,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite, Version=1.0.114.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.114.0\lib\net46\System.Data.SQLite.dll</HintPath>
@@ -77,19 +85,44 @@
     <Compile Include="DAL\DBConnection.cs" />
     <Compile Include="DAL\Entities\Activity.cs" />
     <Compile Include="DAL\Entities\Location.cs" />
-    <Compile Include="DAL\Entities\Ownership.cs" />
     <Compile Include="DAL\Entities\Participation.cs" />
-    <Compile Include="DAL\Entities\Station.cs" />
     <Compile Include="DAL\Entities\Ticket.cs" />
     <Compile Include="DAL\Entities\User.cs" />
     <Compile Include="DAL\Entities\UserData.cs" />
-    <Compile Include="View\homePage.xaml.cs">
-      <DependentUpon>homePage.xaml</DependentUpon>
+    <Compile Include="DAL\Repositories\Locations.cs" />
+    <Compile Include="DAL\Repositories\UserDataRepo.cs" />
+    <Compile Include="DAL\Repositories\Users.cs" />
+    <Compile Include="Model\MainModel.cs" />
+    <Compile Include="View\ContactControl.xaml.cs">
+      <DependentUpon>ContactControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ExercisesChoose.xaml.cs">
+      <DependentUpon>ExercisesChoose.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainPanel.xaml.cs">
+      <DependentUpon>MainPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainWindowControl.xaml.cs">
+      <DependentUpon>MainWindowControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PassChoiceControl.xaml.cs">
+      <DependentUpon>PassChoiceControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\RegistrationPanel.xaml.cs">
       <DependentUpon>RegistrationPanel.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\homePage.xaml">
+    <Compile Include="View\TrainerControl.xaml.cs">
+      <DependentUpon>TrainerControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\ContactControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ExercisesChoose.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -108,7 +141,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\MainWindowControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PassChoiceControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\RegistrationPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TrainerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -127,11 +172,22 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Images\bronzepass.png" />
+    <Resource Include="Images\goldpass.png" />
+    <Resource Include="Images\logoex.png" />
+    <Resource Include="Images\silverpass.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Fonts\Roboto-Light.ttf" />
+    <Resource Include="Assets\backArrow.png" />
+    <Resource Include="Assets\leftArrow1.png" />
+    <Resource Include="Assets\right-arrow.png" />
+    <Resource Include="Assets\dumbbell.png" />
+    <Resource Include="Assets\calendar.png" />
+    <Resource Include="Assets\tickets.png" />
+    <Content Include="GymManagementDatabase.db" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -141,10 +197,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DAL\Repositories\" />
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\bgc1.jpg" />
   </ItemGroup>

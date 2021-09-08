@@ -23,9 +23,9 @@ namespace GymManagementSystem.DAL.Entities
             OpeningHours = reader["godziny_otwarcia"].ToString();
         }
 
-        public Location(string locationID, string address, string openingHours)
+        public Location(string id_lokalizacji, string adres, string godziny_otwarcia)
         {
-            LocationID = locationID; Address = address; OpeningHours = openingHours;
+            LocationID = id_lokalizacji; Address = adres; OpeningHours = godziny_otwarcia;
         }
         #endregion
 

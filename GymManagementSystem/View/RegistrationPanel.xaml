@@ -1,21 +1,17 @@
-﻿<Window x:Class="GymManagementSystem.View.NewMember"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GymManagementSystem.View"
-        mc:Ignorable="d"
-        Title="Registration" Height="550" Width="850"
-        Icon="../Images/logo2.jpg"
-        ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen"
-        Topmost="True">
-
+﻿<UserControl x:Class="GymManagementSystem.View.RegistrationPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GymManagementSystem.View"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="850">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <Image Source="../Images/bgc4.jpg" Stretch="Fill" RenderTransformOrigin="0.478,0.438" Height="520" VerticalAlignment="Bottom" Margin="0,0,0.2,0.8"/>
+        <Image Source="../Images/bgc4.jpg" Stretch="Fill" RenderTransformOrigin="0.478,0.438"  VerticalAlignment="Bottom" Margin="0,0,0.2,0.8"/>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
@@ -52,8 +48,7 @@
                     HorizontalAlignment="Center"/>
                 <TextBox
                     Grid.Column="1"
-                    Text="{Binding Path=FirstName,
-                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                    Text="{Binding FirstName}"
                     FontSize="25"
                     Margin="5"
                     Background='LightCyan'
@@ -70,8 +65,7 @@
                     HorizontalAlignment="Center"/>
                 <TextBox
                     Grid.Column="4"
-                    Text="{Binding Path=LastName,
-                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                    Text="{Binding SurName}"
                     FontSize="25"
                     Margin="5"
                     Background='LightCyan'
@@ -96,8 +90,7 @@
                     HorizontalAlignment="Center"/>
                 <TextBox
                     Grid.Column="1"
-                    Text="{Binding Path=Pesel,
-                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                    Text="{Binding Pesel}"
                     FontSize="25"
                     Margin="5"
                     Background='LightCyan'
@@ -114,8 +107,7 @@
                     HorizontalAlignment="Center"/>
                 <TextBox
                     Grid.Column="4"
-                    Text="{Binding Path=LastName,
-                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                    Text="{Binding NewUserEmail}"
                     FontSize="25"
                     Margin="5"
                     Background='LightCyan'
@@ -124,14 +116,14 @@
             </Grid>
             <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="152*"/>
-                    <ColumnDefinition Width="323*"/>
-                    <ColumnDefinition Width="108*"/>
-                    <ColumnDefinition Width="259*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock
                     Grid.Column="0"
-                    Text="Adres"
+                    Text="Hasło"
                     Foreground="White"
                     FontStyle="Italic"
                     FontSize="25"
@@ -140,28 +132,26 @@
                     HorizontalAlignment="Right" Margin="0,26,52,26" Height="34" Width="63"/>
                 <TextBox
                     Grid.Column="1"
-                    Text="{Binding Path=Street,
-                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                    Text="{Binding NewPassword}"
                     FontSize="25"
-                    Margin="5,26"
+                    Margin="5"
                     Background='LightCyan'
                     FontWeight="SemiBold"
                     VerticalAlignment="Center" Height="34"/>
-                <TextBox
+                <TextBlock
                     Grid.Column="2"
-                    Text="{Binding Path=Number,
-                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                    Text="Powtórz"
+                    Foreground="White"
+                    FontStyle="Italic"
                     FontSize="25"
-                    Margin="5,26"
-                    Background='LightCyan'
                     FontWeight="SemiBold"
-                    VerticalAlignment="Center" Height="34"/>
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"  Height="34" Width="109" Margin="0,33,0.4,33"/>
                 <TextBox
                     Grid.Column="3"
-                    Text="{Binding Path=City,
-                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                    Text="{Binding NewPasswordRepeat}"
                     FontSize="25"
-                    Margin="5,26"
+                    Margin="5"
                     Background='LightCyan'
                     FontWeight="SemiBold"
                     VerticalAlignment="Center" Height="34"/>
@@ -170,8 +160,8 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="2.5*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock
                     Grid.Column="0"
@@ -183,7 +173,11 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
                 <DatePicker 
-                    Grid.Column="1" Margin="0,32,0,26"
+                    Grid.Column="1" 
+                    Margin="0,32,0,26"
+                    SelectedDate="{Binding BirthDate}"
+                    DisplayDate="{Binding DateTime.Now}"
+                    DisplayDateEnd="{Binding CalendarCutDate}"
                     Height="28px"/>
                 <TextBlock
                     Grid.Column="2"
@@ -194,12 +188,12 @@
                     FontWeight="SemiBold"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
-                <ListBox Grid.Column="3" Width="200" Height="70">
-                    <ListBoxItem>Ruda Śląska</ListBoxItem>
-                    <ListBoxItem>Zabrze</ListBoxItem>
-                    <ListBoxItem>Chorzów</ListBoxItem>
-
-                </ListBox>
+                <ListBox 
+                    Grid.Column="3" 
+                    Width="250"
+                    Height="70"
+                    ItemsSource="{Binding AllLocations}"
+                    SelectedItem="{Binding SelectedLocation}"/>
             </Grid>
             <Grid Grid.Row="5">
                 <Grid.ColumnDefinitions>
@@ -209,7 +203,7 @@
                 <Button Grid.Column="0"
                         x:Name="BackToPanelButton"
                         Content="Wróć"
-                        Command="{Binding BackToPanel}"
+                        Command="{Binding BackToLogin}"
                         FontStyle="Italic"
                         FontSize="25px"
                         Margin="20px"
@@ -219,7 +213,7 @@
                 <Button Grid.Column="1"
                         x:Name="RegistrationButton"
                         Content="Zarejestruj"
-                        Command="{Binding RegistrationCommand}"
+                        Command="{Binding CreateUser}"
                         FontStyle="Italic"
                         FontSize="25px"
                         Background="Red"
@@ -230,4 +224,4 @@
         </Grid>
 
     </Grid>
-</Window>
+</UserControl>

@@ -25,7 +25,7 @@ namespace GymManagementSystem.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("GymManagementDatabase.db")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\GymManagementDatabase.db")]
         public string DataSource {
             get {
                 return ((string)(this["DataSource"]));

@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="GymManagementSystem.View.ContactControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GymManagementSystem.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="850"
+             Background="Black">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="7.3*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="11*" />
+            </Grid.ColumnDefinitions>
+            <Button 
+                Grid.Column="0" 
+                Background="Transparent" 
+                Margin="10"
+                Command="{Binding BackToMainPanel}"
+                BorderThickness="0">
+                <StackPanel>
+                    <Image Margin="10" Source="../Assets/leftArrow1.png" />
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Grid 
+            Margin="30, 30, 30, 30"
+            Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="7*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="12*" />
+                </Grid.RowDefinitions>
+                <Label FontSize="25" FontWeight="Bold"  Grid.Row="0" HorizontalAlignment="Center" Foreground="White">IMIĘ:</Label>
+                <TextBox Grid.Column="1" Margin="0,0,0,10" FontSize="25" Text="{Binding ContactName}"/>
+                <Label Grid.Row="1" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Foreground="White">E-MAIL:</Label>
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" FontSize="25" Text="{Binding ContactEmail}"/>
+                <Label Grid.Row="2" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Foreground="White">WIADOMOŚĆ:</Label>
+                <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" AcceptsReturn="True" FontSize="20" TextWrapping="Wrap" Text="{Binding ContactMessage}"/>
+            </Grid>
+
+            <Button 
+            Grid.Row="1" 
+            Margin="5"
+            Width="200"
+            Content="Wyślij"
+            FontSize="22"
+            FontWeight="DemiBold"
+            Background="White"
+            Command="{Binding SendMessage}"/>
+        </Grid>
+    </Grid>
+</UserControl>

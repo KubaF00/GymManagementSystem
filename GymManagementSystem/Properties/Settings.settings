@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="DataSource" Type="System.String" Scope="User">
-      <Value Profile="(Default)">GymManagementDatabase.db</Value>
+      <Value Profile="(Default)">.\GymManagementDatabase.db</Value>
     </Setting>
     <Setting Name="Version" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>

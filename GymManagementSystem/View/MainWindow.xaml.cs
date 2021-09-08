@@ -24,18 +24,13 @@ namespace GymManagementSystem
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void NewMember_Click(object sender, RoutedEventArgs e)
-        {
-            View.NewMember newMember = new NewMember();
-            newMember.Show();
-        }
-
-        private void Login_Click(object sender, RoutedEventArgs e)
-        {
-            View.homePage HomePage = new homePage();
-            HomePage.Show();
+            loginContent.Content = new MainWindowControl();
+            mainPanelContent.Content = new MainPanel();
+            registerContent.Content = new RegistrationPanel();
+            passChoiceContent.Content = new PassChoiceControl();
+            contactContent.Content = new ContactControl();
+            exerciseChooseContent.Content = new ExercisesChoose();
+            trainerContent.Content = new TrainerControl();
         }
     }
 }

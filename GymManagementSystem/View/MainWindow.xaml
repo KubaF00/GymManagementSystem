@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:GymManagementSystem"
         
         xmlns:vm="clr-namespace:GymManagementSystem.ViewModel"
+        xmlns:view="clr-namespace:GymManagementSystem.View"
         Icon="../Images/logo2.jpg"
         mc:Ignorable="d"
         Title="GymManagementService" 
@@ -13,102 +14,18 @@
         Width="850"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen">
-    
+
     <Window.DataContext>
         <vm:MainViewModel x:Name="viewModel"/>
     </Window.DataContext>
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="459*"/>
-            <ColumnDefinition Width="383*"/>
-        </Grid.ColumnDefinitions>
-        <Image Margin="-109,0,-484,-7" Source="../Images/bgc4_copy.jpg" Stretch="Fill" Grid.ColumnSpan="2" RenderTransformOrigin="0.478,0.438"/>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <TextBlock
-                Grid.Row="0"
-                Text="Panel Logowania"
-                Foreground="White"
-                FontStyle="Italic"
-                FontSize="30"
-                FontWeight="SemiBold"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"/>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <TextBox
-                    Grid.Column="0"
-                    Text="{Binding Path=Username,
-                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                    FontSize="25"
-                    Margin="5"
-                    Background='LightCyan'
-                    FontWeight="SemiBold"
-                    VerticalAlignment="Center"/>
-                <Image Grid.Column="1" Height="50px" Source="../Images/userLogo.png"/>
-            </Grid>
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <TextBox
-                    Grid.Column="0"
-                    Text="{Binding Path=Password,
-                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                    FontSize="25"
-                    Margin="5"
-                    Background='LightCyan'
-                    FontWeight="SemiBold"
-                    VerticalAlignment="Center"/>
-                <Image Grid.Column="1" Height="50px" Source="../Images/passLogo.png"/>
-            </Grid>
-            <Grid Grid.Row="3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0"
-                        x:Name="LogToApp"
-                        Content="Zaloguj"
-                        Command="{Binding LoginCommand}"
-                        FontStyle="Italic"
-                        FontSize="25px"
-                        Margin="20px"
-                        Background="White"
-                        BorderThickness="1px" Click="Login_Click"
-                        />
-                <Button Grid.Column="1"
-                        x:Name="NewMember"
-                        Content="Nowe"
-                        Command="{Binding Registration}"
-                        FontStyle="Italic"
-                        FontSize="25px"
-                        Margin="20px"
-                        Background="White"
-                        BorderThickness="1px" Click="NewMember_Click"
-                        />
-            </Grid>
-            <Grid Grid.Row="4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="../Images/fbLogo.png" Width="45px"/>
-                <Image Grid.Column="1" Source="../Images/instaLogo.png" Width="45px"/>
-                <Image Grid.Column="2" Source="../Images/twitterLogo.png" Width="45px"/>
-            </Grid>
-        </Grid>
-        
+        <ContentControl x:Name="loginContent" Visibility="{Binding Path=LoginVis}"/>
+        <ContentControl x:Name="mainPanelContent" Visibility="{Binding Path=MainPanelVis}"/>
+        <ContentControl x:Name="registerContent" Visibility="{Binding Path=RegisterVis}"/>
+        <ContentControl x:Name="passChoiceContent" Visibility="{Binding Path=PassChoiceVis}"/>
+        <ContentControl x:Name="contactContent" Visibility="{Binding Path=ContactVis}"/>
+        <ContentControl x:Name="exerciseChooseContent" Visibility="{Binding Path=ExerciseVis}"/>
+        <ContentControl x:Name="trainerContent" Visibility="{Binding Path=TrainerVis}"/>
     </Grid>
 </Window>

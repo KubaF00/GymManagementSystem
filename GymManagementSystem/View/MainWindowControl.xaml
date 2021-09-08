@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="GymManagementSystem.View.MainWindowControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GymManagementSystem.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="850">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="459*"/>
+            <ColumnDefinition Width="383*"/>
+        </Grid.ColumnDefinitions>
+        <Image Margin="-109,0,-484,-7" Source="../Images/bgc4_copy.jpg" Stretch="Fill" Grid.ColumnSpan="2" RenderTransformOrigin="0.478,0.438"/>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Text="Panel Logowania"
+                Foreground="White"
+                FontStyle="Italic"
+                FontSize="30"
+                FontWeight="SemiBold"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    x:Name="EmailInput"
+                    Grid.Column="0"
+                    Text="{Binding Email}"
+                    FontSize="25"
+                    Margin="5"
+                    Background='LightCyan'
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center"/>
+                <Image Grid.Column="1" Height="50px" Source="../Images/userLogo.png"/>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    x:Name="PasswordInput"
+                    Grid.Column="0"
+                    Text="{Binding Password}"
+                    FontSize="25"
+                    Margin="5"
+                    Background='LightCyan'
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center" TextOptions.TextFormattingMode="Display"/>
+                <Image Grid.Column="1" Height="50px" Source="../Images/passLogo.png"/>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"
+                        x:Name="LogToApp"
+                        Content="Zaloguj"
+                        Command="{Binding LoginCommand}"
+                        FontStyle="Italic"
+                        FontSize="25px"
+                        Margin="20px"
+                        Background="White"
+                        BorderThickness="1px"/>
+
+                <Button Grid.Column="1"
+                        x:Name="NewMember"
+                        Content="Nowe"
+                        Command="{Binding Registration}"
+                        FontStyle="Italic"
+                        FontSize="25px"
+                        Margin="20px"
+                        Background="White"
+                        BorderThickness="1px"/>
+            </Grid>
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="../Images/fbLogo.png" Width="45px"/>
+                <Image Grid.Column="1" Source="../Images/instaLogo.png" Width="45px"/>
+                <Image Grid.Column="2" Source="../Images/twitterLogo.png" Width="45px"/>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</UserControl>
