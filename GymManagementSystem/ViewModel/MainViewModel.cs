@@ -10,7 +10,6 @@ using System.Collections.ObjectModel;
 
 namespace GymManagementSystem.ViewModel
 {
-    //using GymManagementSystem.Model;
     using BaseClass;
     using Model;
     using DAL.Entities;
