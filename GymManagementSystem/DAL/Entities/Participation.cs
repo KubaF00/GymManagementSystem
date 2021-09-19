@@ -28,6 +28,19 @@ namespace GymManagementSystem.DAL.Entities
         #endregion
 
         #region Methods
+        public string ToInsert()
+        {
+            return $"('{UserID}', '{ActivityID}')";
+        }
+
+        public override bool Equals(object obj)
+        {
+            var participation = obj as Participation;
+            if (participation is null) return false;
+            if (UserID != participation.UserID) return false;
+            if (ActivityID != participation.ActivityID) return false;
+            return true;
+        }
         #endregion
     }
 }

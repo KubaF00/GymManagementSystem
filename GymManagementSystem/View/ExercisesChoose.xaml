@@ -67,7 +67,7 @@
                     HorizontalAlignment="Center" Margin="6,24,8,10" Height="50"/>
                     <ListBox Grid.Column="3" Width="225" Height="70"
                              ItemsSource="{Binding AllExerciseTypes}"
-                             SelectedItem="{Binding SelectedExerciseType}"/>
+                             SelectedItem="{Binding UserSelectedExerciseType}"/>
                     <TextBlock
                     Grid.Column="0"
                     Grid.Row="1"
@@ -103,13 +103,12 @@
                     FontWeight="SemiBold"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
-                    <ListBox Grid.Column="1" Width="200" Height="70">
-                        <ListBoxItem>Tomek</ListBoxItem>
-                        <ListBoxItem>Krzysiu</ListBoxItem>
-                        <ListBoxItem>Paweł</ListBoxItem>
-                        <ListBoxItem>Janek</ListBoxItem>
-                        <ListBoxItem>Kasia</ListBoxItem>
-                    </ListBox>
+                    <ListBox 
+                        Grid.Column="1" 
+                        Width="200" 
+                        Height="70"                        
+                        ItemsSource="{Binding AllTrainers}"
+                        SelectedIndex="{Binding UserSelectedTrainerID}"/>
                     <TextBlock
                     Grid.Row="2"
                     Grid.Column="2"
@@ -125,26 +124,48 @@
                         Width="225" 
                         Height="70"
                         ItemsSource="{Binding AllLocations}"
-                        SelectedItem="{Binding SelectedLocation}"/>
+                        SelectedItem="{Binding UserSelectedLocation}"/>
                 </Grid>
-                <Button Grid.Row="3"
+
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                        x:Name="SetButton"
+                        Content="Pokaż"
+                        Margin="5"
+                        Command="{Binding SetExerciseSearch}"
+                        FontStyle="Italic"
+                        FontSize="25"
+                        FontWeight="DemiBold"
+                        Background="white"
+                        BorderThickness="1px"
+                        HorizontalAlignment="Center"
+                        Width="200"/>
+
+                    <Button Grid.Column="1"
                         x:Name="SaveButton"
                         Content="Zapisz"
                         Margin="5"
                         Command="{Binding SaveExercises}"
                         FontStyle="Italic"
-                        FontSize="25px"
+                        FontSize="25"
                         FontWeight="DemiBold"
                         Background="Red"
                         BorderThickness="1px"
                         HorizontalAlignment="Center"
-                        Width="200"
-                        />
-                    <Grid Grid.Row="4">
-                    <ListBox Name="listboxExercises"
+                        Width="200"/>
+                </Grid>
+                <Grid Grid.Row="4">
+                    <ListBox 
+                         Name="listboxExercises"
                          FontSize="20" 
                          Margin="10"
-                         Background= "WhiteSmoke"/>
+                         Background= "WhiteSmoke"
+                         SelectedItem="{Binding SelectedExercise}"/>
                 </Grid>
             </Grid>
         </Grid>

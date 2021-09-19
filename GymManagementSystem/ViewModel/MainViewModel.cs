@@ -28,6 +28,8 @@ namespace GymManagementSystem.ViewModel
             AllActivity = model.AllActivity;
             AllParticipation = model.AllParticipation;
             AllExerciseTypes = model.ExerciseType;
+            AllTrainers = model.AllTrainers;
+            AllTrainersID = model.AllTrainersID;
         }
         #endregion
 
@@ -168,6 +170,32 @@ namespace GymManagementSystem.ViewModel
 
         #region EXERCISECHOOSEVIEW PROPERTIES
         public List<string> AllExerciseTypes { get; set; } = new List<string>();
+        public List<string> AllTrainers { get; set; } = new List<string>();
+        public List<long> AllTrainersID { get; set; } = new List<long>();
+        private DateTime? userExerciseDate;
+        private string userSelectedExerciseType, userSelectedLocation;
+        private long userSelectedTrainerID;
+
+        public DateTime? UserExerciseDate
+        {
+            get { return userExerciseDate; }
+            set { userExerciseDate = value; OnPropertyChange(nameof(userExerciseDate)); }
+        }
+        public string UserSelectedExerciseType
+        {
+            get { return userSelectedExerciseType; }
+            set { userSelectedExerciseType = value; OnPropertyChange(nameof(userSelectedExerciseType)); }
+        }
+        public string UserSelectedLocation
+        {
+            get { return userSelectedLocation; }
+            set { userSelectedLocation = value; OnPropertyChange(nameof(userSelectedLocation)); }
+        }
+        public long UserSelectedTrainerID
+        {
+            get { return userSelectedTrainerID; }
+            set { userSelectedTrainerID = value; OnPropertyChange(nameof(userSelectedTrainerID)); }
+        }
         #endregion
 
         #region TRAINERVIEW PROPERTIES
@@ -386,9 +414,13 @@ namespace GymManagementSystem.ViewModel
                 {
                     openExView = new RelayCommand(arg =>
                     {
+                        userSelectedTrainerID = 0;
+                        userSelectedLocation = AllLocations[0];
+                        userSelectedExerciseType = AllExerciseTypes[0];
                         CollapseAll();
                         exerciseVis = Visibility.Visible;
-                        OnPropertyChange(nameof(exerciseVis), nameof(mainPanelVis));
+                        OnPropertyChange(nameof(exerciseVis), nameof(mainPanelVis), 
+                            nameof(userSelectedTrainerID), nameof(userSelectedLocation), nameof(UserSelectedExerciseType));
                     });
                 }
                 return openExView;
@@ -486,6 +518,37 @@ namespace GymManagementSystem.ViewModel
         #endregion
 
         #region EXERCISECHOOSEVIEW COMMANDS
+        private ICommand saveExercises, setExerciseSearch;
+
+        public ICommand SaveExercises
+        {
+            get
+            {
+                if (saveExercises == null)
+                {
+                    saveExercises = new RelayCommand(arg =>
+                    {
+
+                    });
+                }
+                return saveExercises;
+            }
+        }
+
+        public ICommand SetExerciseSearch
+        {
+            get
+            {
+                if (setExerciseSearch == null)
+                {
+                    setExerciseSearch = new RelayCommand(arg =>
+                    {
+
+                    }, arg => CheckExercisePanel());
+                }
+                return setExerciseSearch;
+            }
+        }
         #endregion
 
         #region TRAINERVIEW COMMANDS
@@ -634,6 +697,14 @@ namespace GymManagementSystem.ViewModel
             if (string.IsNullOrEmpty(exerciseName)) pc = false;
             if (!trainerExerciseDate.HasValue) pc = false;
             return pc;
+        }
+        #endregion
+
+        #region EXERCISEPANEL FUNCTIONS
+        private bool CheckExercisePanel()
+        {
+            if (!UserExerciseDate.HasValue) return false;
+            return true;
         }
         #endregion
         #endregion

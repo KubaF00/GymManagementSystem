@@ -22,6 +22,9 @@ namespace GymManagementSystem.Model
         public ObservableCollection<Participation> AllParticipation { get; set; } = new ObservableCollection<Participation>();
         public List<Location> FullLocations { get; set; } = new List<Location>();
         public List<string> AllLocations { get; set; } = new List<string>();
+        public List<string> AllTrainers { get; set; } = new List<string>();
+        public List<long> AllTrainersID { get; set; } = new List<long>();
+        public List<UserData> AllTrainersData { get; set; } = new List<UserData>();
         public List<string> ExerciseType { get; set; } = new List<string>()
         {
            "Cardio", "Trening pleców", "Zajęcia ogólnorozwojowe", "Trening torsu", "Trening górnych partii", "Trening dolnych partii"
@@ -37,10 +40,19 @@ namespace GymManagementSystem.Model
             {
                 UpdateUserPassInfo(u);
                 AllUsers.Add(u);
+                if(u.UserType.Equals("trener"))
+                    AllTrainersID.Add(u.UserID);
             }
             var dbUserData = UserDataRepo.LoadUsersData();
             foreach (var ud in dbUserData)
+            {
                 AllUsersData.Add(ud);
+                if (AllTrainersID.Contains(ud.UserID))
+                    AllTrainersData.Add(ud);
+            }
+            AllTrainersData = AllTrainersData.OrderBy(UserData => UserData.UserID).ToList();
+            foreach (var atd in AllTrainersData)
+                AllTrainers.Add($"{atd.Name} {atd.Surname}");
 
             var dbActivities = Activities.LoadActivity();
             foreach (var a in dbActivities)
@@ -127,6 +139,8 @@ namespace GymManagementSystem.Model
                 if (Users.ExpiredPass(user)) { }
             }
         }
+
+        public bool UserAlreadySigned(Participation participation) => AllParticipation.Contains(participation);
         #endregion
     }
 }
