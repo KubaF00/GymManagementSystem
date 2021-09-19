@@ -89,7 +89,9 @@
     <Compile Include="DAL\Entities\Ticket.cs" />
     <Compile Include="DAL\Entities\User.cs" />
     <Compile Include="DAL\Entities\UserData.cs" />
+    <Compile Include="DAL\Repositories\Activities.cs" />
     <Compile Include="DAL\Repositories\Locations.cs" />
+    <Compile Include="DAL\Repositories\ParticipationRepo.cs" />
     <Compile Include="DAL\Repositories\UserDataRepo.cs" />
     <Compile Include="DAL\Repositories\Users.cs" />
     <Compile Include="Model\MainModel.cs" />

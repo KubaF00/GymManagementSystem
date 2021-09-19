@@ -65,13 +65,9 @@
                     FontWeight="SemiBold"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center" Margin="6,24,8,10" Height="50"/>
-                    <ListBox Grid.Column="3" Width="225" Height="70">
-                        <ListBoxItem>Wyciskanie</ListBoxItem>
-                        <ListBoxItem>Sztanga</ListBoxItem>
-                        <ListBoxItem>ketle</ListBoxItem>
-                        <ListBoxItem>Zumba</ListBoxItem>
-                        <ListBoxItem>Joga</ListBoxItem>
-                    </ListBox>
+                    <ListBox Grid.Column="3" Width="225" Height="70"
+                             ItemsSource="{Binding AllExerciseTypes}"
+                             SelectedItem="{Binding SelectedExerciseType}"/>
                     <TextBlock
                     Grid.Column="0"
                     Grid.Row="1"
@@ -83,9 +79,12 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
                     <DatePicker 
-                    Grid.Column="1" 
-                    Margin="0,32,0,26"
-                    Height="28px"/>
+                        Grid.Column="1" 
+                        Margin="0,32,0,26"
+                        Height="28px"
+                        SelectedDate="{Binding UserExerciseDate}"
+                        DisplayDate="{Binding DateTime.Now}"
+                        DisplayDateStart="{Binding CalendarCutDate}"/>
                 </Grid>
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
@@ -125,25 +124,10 @@
                         Grid.Column="3" 
                         Width="225" 
                         Height="70"
-                        ItemsSource="{Binding AllLocations}"/>
+                        ItemsSource="{Binding AllLocations}"
+                        SelectedItem="{Binding SelectedLocation}"/>
                 </Grid>
-                <Grid Grid.Row="3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="2*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0"
-                        x:Name="BackToPanelButton"
-                        Content="Wróć"
-                        Margin="5"
-                        Command="{Binding BackToPanel}"
-                        FontStyle="Italic"
-                        FontSize="25px"
-                        FontWeight="DemiBold"
-                        Background="White"
-                        BorderThickness="1px"
-                        />
-                    <Button Grid.Column="1"
+                <Button Grid.Row="3"
                         x:Name="SaveButton"
                         Content="Zapisz"
                         Margin="5"
@@ -153,9 +137,10 @@
                         FontWeight="DemiBold"
                         Background="Red"
                         BorderThickness="1px"
+                        HorizontalAlignment="Center"
+                        Width="200"
                         />
-                </Grid>
-                <Grid Grid.Row="4">
+                    <Grid Grid.Row="4">
                     <ListBox Name="listboxExercises"
                          FontSize="20" 
                          Margin="10"

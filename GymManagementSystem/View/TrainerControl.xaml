@@ -29,5 +29,182 @@
                 </StackPanel>
             </Button>
         </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Image Margin="0,0,-350,-7" Source="../Images/bgc4_copy.jpg" Stretch="Fill" Grid.ColumnSpan="4" RenderTransformOrigin="0.478,0.438" Grid.RowSpan="3"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="0.7*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                    Grid.Column="2"
+                    Text="Rodzaj Treningu"
+                    Foreground="White"
+                    FontStyle="Italic"
+                    FontSize="25"
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center" Margin="6,24,8,10" Height="50"/>
+                    <ListBox Grid.Column="3" Width="225" Height="70"
+                             ItemsSource="{Binding AllExerciseTypes}"
+                             SelectedItem="{Binding TrainerSelectedExerciseType}"/>
+                    <TextBlock
+                    Grid.Column="0"
+                    Text="Data"
+                    Foreground="White"
+                    FontStyle="Italic"
+                    FontSize="25"
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+                    <DatePicker 
+                        Grid.Column="1" 
+                        Margin="0,32,0,26"
+                        Height="28px"
+                        SelectedDate="{Binding TrainerExerciseDate}"
+                        DisplayDate="{Binding DateTime.Now}"
+                        DisplayDateStart="{Binding CalendarCutDate}"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="122*"/>
+                        <ColumnDefinition Width="243*"/>
+                        <ColumnDefinition Width="242*"/>
+                        <ColumnDefinition Width="242.4"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="Max"
+                    Foreground="White"
+                    FontStyle="Italic"
+                    FontSize="25"
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+                    <Slider 
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Minimum="1"
+                        Maximum="60"
+                        Margin="5"
+                        TickFrequency="1"
+                        IsSnapToTickEnabled="True"
+                        Value="{Binding MaxParticipants}"
+                        AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
+                    <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Text="Lokalizacja"
+                    Foreground="White"
+                    FontStyle="Italic"
+                    FontSize="25"
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+                    <ListBox 
+                        Grid.Column="3" 
+                        Width="225" 
+                        Height="70"
+                        ItemsSource="{Binding AllLocations}"
+                        SelectedItem="{Binding TrainerSelectedLocation}"/>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="61*"/>
+                        <ColumnDefinition Width="243.2"/>
+                        <ColumnDefinition Width="121*"/>
+                        <ColumnDefinition Width="121*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                    Grid.Column="0"
+                    Text="Godzina"
+                    Foreground="White"
+                    FontStyle="Italic"
+                    FontSize="25"
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+
+                    <TextBlock
+                    Grid.Column="2"
+                    Text="Nazwa Zajęć"
+                    Foreground="White"
+                    FontStyle="Italic"
+                    FontSize="25"
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Slider 
+                            Grid.Row="0"
+                            VerticalAlignment="Center"
+                            Maximum="23"
+                            Margin="5"
+                            TickFrequency="1"
+                            IsSnapToTickEnabled="True"
+                            Value="{Binding ExerciseSelectedHour}"
+                            AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
+
+                        <Slider 
+                            Grid.Row="1"
+                            VerticalAlignment="Center"
+                            Minimum="0"
+                            Maximum="59"
+                            Margin="5"
+                            TickFrequency="1"
+                            IsSnapToTickEnabled="True"
+                            Value="{Binding ExerciseSelectedMinutes}"
+                            AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
+
+                    </Grid>
+
+                    <TextBox
+                        Grid.Column="3"
+                        VerticalAlignment="Center"
+                        FontStyle="Italic"
+                        FontSize="15"
+                        Margin="5"
+                        Height="50"
+                        TextWrapping="Wrap"
+                        Text="{Binding ExerciseName}"/>
+                </Grid>
+
+                <Button Grid.Row="3"
+                        x:Name="SaveButton"
+                        Content="Zapisz"
+                        Margin="5"
+                        Command="{Binding TrainerSaveExercise}"
+                        FontStyle="Italic"
+                        FontSize="25px"
+                        FontWeight="DemiBold"
+                        Background="Red"
+                        BorderThickness="1px"
+                        HorizontalAlignment="Center"
+                        Width="200"
+                        />
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

@@ -10,7 +10,7 @@ namespace GymManagementSystem.DAL.Entities
     class Activity
     {
         #region Properties
-        public int ActivityID { get; set; }
+        public long ActivityID { get; set; }
         public string LocationID { get; set; }
         public string ActivityName { get; set; }
         public string TrainingType { get; set; }
@@ -33,15 +33,19 @@ namespace GymManagementSystem.DAL.Entities
             NumberOfSignedUp = int.Parse(reader["zapisanych"].ToString());
         }
 
-        public Activity(int activityID, string locationID, string name, string trainingType, DateTime time,
-            int trainerID, int maxNumberOfParticipants, int numberOfSignepUp)
+        public Activity(long id_zajęć, string id_lokalizacji, string nazwa, string rodzaj_treningu, DateTime kiedy,
+            int id_prowadzącego, int max, int zapisanych)
         {
-            ActivityID = activityID; LocationID = locationID; ActivityName = name; TrainingType = trainingType;
-            Time = time; TrainerID = trainerID; MaxNumberOfParticipants = maxNumberOfParticipants; NumberOfSignedUp = numberOfSignepUp;
+            ActivityID = id_zajęć; LocationID = id_lokalizacji; ActivityName = nazwa; TrainingType = rodzaj_treningu;
+            Time = kiedy; TrainerID = id_prowadzącego; MaxNumberOfParticipants = max; NumberOfSignedUp = zapisanych;
         }
         #endregion
 
         #region Methods
+        public string ToInsert()
+        {
+            return $"('{ActivityID}', '{LocationID}', '{ActivityName}','{TrainingType}', '{Time.ToString("yyyy-MM-dd HH:mm")}', '{TrainerID}', '{MaxNumberOfParticipants}', '{NumberOfSignedUp}')";
+        }
         #endregion
     }
 }

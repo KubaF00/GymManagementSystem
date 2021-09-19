@@ -25,6 +25,9 @@ namespace GymManagementSystem.ViewModel
             AllUsers = model.AllUsers;
             AllUsersData = model.AllUsersData;
             AllLocations = model.AllLocations;
+            AllActivity = model.AllActivity;
+            AllParticipation = model.AllParticipation;
+            AllExerciseTypes = model.ExerciseType;
         }
         #endregion
 
@@ -32,6 +35,8 @@ namespace GymManagementSystem.ViewModel
         //Kolekcje
         public ObservableCollection<User> AllUsers { get; set; } = new ObservableCollection<User>();
         public ObservableCollection<UserData> AllUsersData { get; set; } = new ObservableCollection<UserData>();
+        public ObservableCollection<Activity> AllActivity { get; set; } = new ObservableCollection<Activity>();
+        public ObservableCollection<Participation> AllParticipation { get; set; } = new ObservableCollection<Participation>();
         public List<string> AllLocations { get; set; } = new List<string>();
 
         //Widoczność kontrolek
@@ -162,9 +167,49 @@ namespace GymManagementSystem.ViewModel
         #endregion
 
         #region EXERCISECHOOSEVIEW PROPERTIES
+        public List<string> AllExerciseTypes { get; set; } = new List<string>();
         #endregion
 
         #region TRAINERVIEW PROPERTIES
+        private DateTime? trainerExerciseDate;
+        private string trainerSelectedExerciseType, trainerSelectedLocation, exerciseName;
+        private int maxParticipants = 30, exerciseSelectedHour = 11, exerciseSelectedMinutes = 29;
+
+        public DateTime? TrainerExerciseDate
+        {
+            get { return trainerExerciseDate; }
+            set { trainerExerciseDate = value; OnPropertyChange(nameof(trainerExerciseDate)); }
+        }
+        public string TrainerSelectedExerciseType
+        {
+            get { return trainerSelectedExerciseType; }
+            set { trainerSelectedExerciseType = value; OnPropertyChange(nameof(trainerSelectedExerciseType)); }
+        }
+        public string TrainerSelectedLocation
+        {
+            get { return trainerSelectedLocation; }
+            set { trainerSelectedLocation = value; OnPropertyChange(nameof(trainerSelectedLocation)); }
+        }
+        public string ExerciseName
+        {
+            get { return exerciseName; }
+            set { exerciseName = value; OnPropertyChange(nameof(exerciseName)); }
+        }
+        public int MaxParticipants
+        {
+            get { return maxParticipants; }
+            set { maxParticipants = value; OnPropertyChange(nameof(maxParticipants)); }
+        }
+        public int ExerciseSelectedHour
+        {
+            get { return exerciseSelectedHour; }
+            set { exerciseSelectedHour = value; OnPropertyChange(nameof(exerciseSelectedHour)); }
+        }
+        public int ExerciseSelectedMinutes
+        {
+            get { return exerciseSelectedMinutes; }
+            set { exerciseSelectedMinutes = value; OnPropertyChange(nameof(exerciseSelectedMinutes)); }
+        }
         #endregion
 
         #region CONTACTVIEW PROPERTIES
@@ -204,13 +249,6 @@ namespace GymManagementSystem.ViewModel
                         mainPanelVis = Visibility.Visible;
                         CurrentUserData = new UserData(AllUsersData.ToList(), email);
                         CurrentUser = new User(AllUsers.ToList(), CurrentUserData.UserID);
-                        if(DateTime.Compare(DateTime.Now, (CurrentUser.TicketExpiration ?? DateTime.Now)) > 0)
-                        {
-                            CurrentUser.TicketExpiration = DateTime.MinValue;
-                            CurrentUser.TicketCode = null;
-                            if(Users.ExpiredPass(CurrentUser))
-                                model.UpdateUserPassInfo(CurrentUser);
-                        }
                         password = string.Empty;
                         email = string.Empty;
                         OnPropertyChange(nameof(password), nameof(email),
@@ -276,8 +314,8 @@ namespace GymManagementSystem.ViewModel
                 {
                     createUser = new RelayCommand(arg =>
                     {
-                        CurrentUser = new User(model.GetHighestID() + 1, model.GetLocationID(selectedLocation), DateTime.Now.Date);
-                        CurrentUserData = new UserData(true, Pesel, model.GetHighestID() + 1, FirstName, SurName, 
+                        CurrentUser = new User(model.GetHighestUserID() + 1, model.GetLocationID(selectedLocation), DateTime.Now.Date);
+                        CurrentUserData = new UserData(true, Pesel, model.GetHighestUserID() + 1, FirstName, SurName, 
                             BirthDate ?? DateTime.Now, NewUserEmail, NewPassword);
                         if (Users.AddUser(CurrentUser) && UserDataRepo.AddUserData(CurrentUserData))
                         {
@@ -365,9 +403,14 @@ namespace GymManagementSystem.ViewModel
                 {
                     openTrainerView = new RelayCommand(arg =>
                     {
+                        trainerSelectedLocation = AllLocations[0];
+                        trainerSelectedExerciseType = AllExerciseTypes[0];
+                        exerciseName = string.Empty;
                         CollapseAll();
                         trainerVis = Visibility.Visible;
-                        OnPropertyChange(nameof(trainerVis), nameof(mainPanelVis));
+                        OnPropertyChange(nameof(trainerVis), nameof(mainPanelVis),
+                            nameof(trainerSelectedLocation), nameof(trainerSelectedExerciseType),
+                            nameof(exerciseName));
                     }, arg => CurrentUser.UserType.Equals("trener"));
                 }
                 return openTrainerView;
@@ -446,6 +489,37 @@ namespace GymManagementSystem.ViewModel
         #endregion
 
         #region TRAINERVIEW COMMANDS
+        private ICommand trainerSaveExercise;
+
+        public ICommand TrainerSaveExercise
+        {
+            get
+            {
+                if (trainerSaveExercise == null)
+                {
+                    trainerSaveExercise = new RelayCommand(arg =>
+                    {
+                        DateTime dateInput = new DateTime((TrainerExerciseDate ?? DateTime.Now).Year, (TrainerExerciseDate ?? DateTime.Now).Month,
+                            (TrainerExerciseDate ?? DateTime.Now).Day, exerciseSelectedHour, exerciseSelectedMinutes, 0);
+                        Activity NewActivity = new Activity(model.GetHighestActivityID() + 1, model.GetLocationID(trainerSelectedLocation),
+                            exerciseName, trainerSelectedExerciseType, dateInput, (int)CurrentUser.UserID, maxParticipants, 0);
+                        if (Activities.AddActivity(NewActivity))
+                        {
+                            AllActivity.Add(NewActivity);
+                            exerciseName = string.Empty;
+                            maxParticipants = 30;
+                            exerciseSelectedHour = 11;
+                            exerciseSelectedMinutes = 29;
+                            trainerSelectedLocation = AllLocations[0];
+                            trainerSelectedExerciseType = AllExerciseTypes[0];
+                            OnPropertyChange(nameof(maxParticipants), nameof(exerciseSelectedHour), nameof(exerciseSelectedMinutes),
+                                nameof(trainerSelectedLocation), nameof(trainerSelectedExerciseType), nameof(exerciseName));
+                        }
+                    }, arg => CheckTrainerPanel());
+                }
+                return trainerSaveExercise;
+            }
+        }
         #endregion
 
         #region CONTACTVIEW COMMANDS
@@ -505,6 +579,7 @@ namespace GymManagementSystem.ViewModel
             contactVis = Visibility.Collapsed;
         }
 
+        #region REGISTERPANEL FUNCTIONS
         private void ClearRegisterPanel()
         {
             firstName = string.Empty;
@@ -526,7 +601,9 @@ namespace GymManagementSystem.ViewModel
             if (!birthDate.HasValue) pc = false;
             return pc;
         }
+        #endregion
 
+        #region PASSCHOICEPANEL FUNCTIONS
         private void ShowHidePassInfo()
         {
             if (DateTime.Compare((CurrentUser.TicketExpiration ?? DateTime.Now), DateTime.MinValue) == 0)
@@ -545,12 +622,20 @@ namespace GymManagementSystem.ViewModel
         {
             CurrentUser.TicketCode = code;
             CurrentUser.TicketExpiration = DateTime.Now.AddMonths(months).Date;
-            if(Users.UpdatePassInfo(CurrentUser))
-                model.UpdateUserPassInfo(CurrentUser);
             ShowHidePassInfo();
             OnPropertyChange(nameof(currentPassType), nameof(currentPassExpire));
         }
         #endregion
 
+        #region TRAINERPANEL FUNCTIONS
+        private bool CheckTrainerPanel()
+        {
+            bool pc = true;
+            if (string.IsNullOrEmpty(exerciseName)) pc = false;
+            if (!trainerExerciseDate.HasValue) pc = false;
+            return pc;
+        }
+        #endregion
+        #endregion
     }
 }

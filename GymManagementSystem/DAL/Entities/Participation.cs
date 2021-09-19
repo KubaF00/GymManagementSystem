@@ -10,8 +10,8 @@ namespace GymManagementSystem.DAL.Entities
     class Participation
     {
         #region Properties
-        public int UserID { get; set; }
-        public int ActivityID { get; set; }
+        public long UserID { get; set; }
+        public long ActivityID { get; set; }
         #endregion
 
         #region Constructors
@@ -21,9 +21,9 @@ namespace GymManagementSystem.DAL.Entities
             ActivityID = int.Parse(reader["id_zajęć"].ToString());
         }
 
-        public Participation(int userID, int activityID)
+        public Participation(long id_użytkownika, long id_zajęć)
         {
-            UserID = userID; ActivityID = activityID;
+            UserID = id_użytkownika; ActivityID = id_zajęć;
         }
         #endregion
 
