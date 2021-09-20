@@ -39,6 +39,18 @@ namespace GymManagementSystem.DAL.Entities
             ActivityID = id_zajęć; LocationID = id_lokalizacji; ActivityName = nazwa; TrainingType = rodzaj_treningu;
             Time = kiedy; TrainerID = id_prowadzącego; MaxNumberOfParticipants = max; NumberOfSignedUp = zapisanych;
         }
+
+        public Activity(bool isDefault)
+        {
+            ActivityID = 0;
+            LocationID = string.Empty;
+            ActivityName = string.Empty;
+            TrainingType = string.Empty;
+            Time = DateTime.Now;
+            TrainerID = 0;
+            MaxNumberOfParticipants = 0;
+            NumberOfSignedUp = 0;
+        }
         #endregion
 
         #region Methods

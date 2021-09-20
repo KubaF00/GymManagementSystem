@@ -18,6 +18,7 @@ namespace GymManagementSystem.DAL.Repositories
         private const string ADD_ACTIVITY = "insert into 'ZAJĘCIA'('id_zajęć', 'id_lokalizacji', 'nazwa', 'rodzaj_treningu', " +
             "'kiedy', 'id_prowadzącego', 'max', 'zapisanych') values";
         private const string DELETE_ACTIVITY = "delete from ZAJĘCIA where id_zajęć =";
+        private const string UPDATE_SIGNED_STATUS = "update ZAJĘCIA set zapisanych = zapisanych + 1 where id_zajęć =";
         #endregion
 
         #region CRUD
@@ -47,6 +48,17 @@ namespace GymManagementSystem.DAL.Repositories
             using (IDbConnection cnn = DBConnection.Instance.DataConnector)
             {
                 var input = cnn.Execute($"{ADD_ACTIVITY} {activity.ToInsert()}");
+                state = true;
+            }
+            return state;
+        }
+
+        public static bool UpdateActivity(Activity activity)
+        {
+            bool state = false;
+            using (IDbConnection cnn = DBConnection.Instance.DataConnector)
+            {
+                var input = cnn.Execute($"{UPDATE_SIGNED_STATUS} {activity.ActivityID}");
                 state = true;
             }
             return state;

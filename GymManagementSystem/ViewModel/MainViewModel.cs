@@ -421,6 +421,7 @@ namespace GymManagementSystem.ViewModel
                 {
                     openExView = new RelayCommand(arg =>
                     {
+                        ChosenActivityString = new List<string>();
                         ChosenActivityString.AddRange(AllActivityString);
                         ResetExercisePanel();
                         CollapseAll();
@@ -533,10 +534,32 @@ namespace GymManagementSystem.ViewModel
                 {
                     saveExercises = new RelayCommand(arg =>
                     {
+                        Activity NewActivity = new Activity(true);
+                        for (int i = 0; i < AllActivity.Count; i++)
+                            if (AllActivityString[i].Equals(ChosenActivityString[SelectedExerciseIndex]))
+                                NewActivity = AllActivity[i];
+                        Participation NewParticipation = new Participation(CurrentUser.UserID, NewActivity.ActivityID);
+
+                        if (!AllParticipation.Contains(NewParticipation) && NewActivity.MaxNumberOfParticipants - NewActivity.NumberOfSignedUp > 0)
+                        {
+                            if (ParticipationRepo.AddParticipation(NewParticipation) && Activities.UpdateActivity(NewActivity))
+                            {
+                                AllParticipation.Add(NewParticipation);
+                                for (int i = 0; i < AllActivity.Count; i++)
+                                    if(AllActivity[i].ActivityID == NewActivity.ActivityID)
+                                    {
+                                        AllActivity[i].NumberOfSignedUp += 1;
+                                        int newCount = int.Parse(AllActivityString[i].Split().Last()) - 1;
+                                        AllActivityString[i] = $"{AllActivityString[i].Substring(0, AllActivityString[i].LastIndexOf(' ')).TrimEnd()} {newCount}";
+                                    }
+                            }
+                        }
+                        else MessageBox.Show("Nie możesz zapisać się na te zajęcia.\nJuż to zrobiłeś, lub limit ćwiczących został osiągnięty.");
+
                         ChosenActivityString = new List<string>();
                         ChosenActivityString.AddRange(AllActivityString);
                         ResetExercisePanel();
-                    });
+                    }, arg => selectedExerciseIndex >= 0);
                 }
                 return saveExercises;
             }

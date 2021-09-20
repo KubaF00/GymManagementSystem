@@ -30,7 +30,7 @@ namespace GymManagementSystem.DAL.Entities
         #region Methods
         public string ToInsert()
         {
-            return $"('{UserID}', '{ActivityID}')";
+            return $"({UserID}, {ActivityID})";
         }
 
         public override bool Equals(object obj)
