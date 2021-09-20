@@ -41,6 +41,11 @@ namespace GymManagementSystem.DAL.Entities
             if (ActivityID != participation.ActivityID) return false;
             return true;
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
         #endregion
     }
 }

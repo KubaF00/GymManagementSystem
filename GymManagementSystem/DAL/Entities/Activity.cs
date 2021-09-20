@@ -46,6 +46,11 @@ namespace GymManagementSystem.DAL.Entities
         {
             return $"('{ActivityID}', '{LocationID}', '{ActivityName}','{TrainingType}', '{Time.ToString("yyyy-MM-dd HH:mm")}', '{TrainerID}', '{MaxNumberOfParticipants}', '{NumberOfSignedUp}')";
         }
+
+        public string GetStringInputValue(string locationAddress, string trainerName)
+        {
+            return $"{String.Format("{0, -19}", locationAddress)} | {Time.ToString("dd-MM-yyyy HH:mm")} | {String.Format("{0, -24}", TrainingType)} | {String.Format("{0, -24}", trainerName)}| Wolnych miejsc: {MaxNumberOfParticipants - NumberOfSignedUp}";
+        }
         #endregion
     }
 }

@@ -20,6 +20,7 @@ namespace GymManagementSystem.Model
         public ObservableCollection<UserData> AllUsersData { get; set; } = new ObservableCollection<UserData>();
         public ObservableCollection<Activity> AllActivity { get; set; } = new ObservableCollection<Activity>();
         public ObservableCollection<Participation> AllParticipation { get; set; } = new ObservableCollection<Participation>();
+        public List<string> AllActivityString { get; set; } = new List<string>();
         public List<Location> FullLocations { get; set; } = new List<Location>();
         public List<string> AllLocations { get; set; } = new List<string>();
         public List<string> AllTrainers { get; set; } = new List<string>();
@@ -51,15 +52,31 @@ namespace GymManagementSystem.Model
                     AllTrainersData.Add(ud);
             }
             AllTrainersData = AllTrainersData.OrderBy(UserData => UserData.UserID).ToList();
-            foreach (var atd in AllTrainersData)
-                AllTrainers.Add($"{atd.Name} {atd.Surname}");
 
             var dbActivities = Activities.LoadActivity();
             foreach (var a in dbActivities)
             {
                 if (DateTime.Compare(DateTime.Now, a.Time) > 0)
-                    { if (Activities.DeleteOldActivity(a)) { } }
-                else AllActivity.Add(a);
+                { if (Activities.DeleteOldActivity(a)) { } }
+                else
+                {
+                    AllActivity.Add(a);
+                    foreach (var t in AllTrainersData)
+                    {
+                        foreach (var l in FullLocations)
+                        {
+                            if(l.LocationID == a.LocationID)
+                            {
+                                string[] addressSplit = l.Address.Split();
+                                string shortAddress = $"{addressSplit[0]} {addressSplit[1].Trim(',')}";
+                                AllTrainers.Add($"{t.Name} {t.Surname}");
+                                if (a.TrainerID == t.UserID)
+                                    AllActivityString.Add(a.GetStringInputValue(shortAddress, $"{t.Name} {t.Surname}"));
+                            }
+                        }
+                    }
+
+                }
             }
             var dbParticipation = ParticipationRepo.LoadParticipation();
             foreach (var p in dbParticipation)

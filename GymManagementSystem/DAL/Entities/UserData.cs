@@ -102,6 +102,11 @@ namespace GymManagementSystem.DAL.Entities
             if (!Pesel.Equals(data.Pesel)) return false;
             return true;
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
         #endregion
     }
 }

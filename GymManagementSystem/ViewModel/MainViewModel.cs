@@ -30,6 +30,7 @@ namespace GymManagementSystem.ViewModel
             AllExerciseTypes = model.ExerciseType;
             AllTrainers = model.AllTrainers;
             AllTrainersID = model.AllTrainersID;
+            AllActivityString = model.AllActivityString;
         }
         #endregion
 
@@ -39,6 +40,8 @@ namespace GymManagementSystem.ViewModel
         public ObservableCollection<UserData> AllUsersData { get; set; } = new ObservableCollection<UserData>();
         public ObservableCollection<Activity> AllActivity { get; set; } = new ObservableCollection<Activity>();
         public ObservableCollection<Participation> AllParticipation { get; set; } = new ObservableCollection<Participation>();
+        public List<string> AllActivityString { get; set; } = new List<string>();
+        public List<string> ChosenActivityString { get; set; } = new List<string>();
         public List<string> AllLocations { get; set; } = new List<string>();
 
         //Widoczność kontrolek
@@ -173,28 +176,32 @@ namespace GymManagementSystem.ViewModel
         public List<string> AllTrainers { get; set; } = new List<string>();
         public List<long> AllTrainersID { get; set; } = new List<long>();
         private DateTime? userExerciseDate;
-        private string userSelectedExerciseType, userSelectedLocation;
-        private long userSelectedTrainerID;
+        private int userSelectedExerciseTypeIndex, userSelectedLocationIndex, userSelectedTrainerIndex, selectedExerciseIndex;
 
         public DateTime? UserExerciseDate
         {
             get { return userExerciseDate; }
             set { userExerciseDate = value; OnPropertyChange(nameof(userExerciseDate)); }
         }
-        public string UserSelectedExerciseType
+        public int UserSelectedExerciseTypeIndex
         {
-            get { return userSelectedExerciseType; }
-            set { userSelectedExerciseType = value; OnPropertyChange(nameof(userSelectedExerciseType)); }
+            get { return userSelectedExerciseTypeIndex; }
+            set { userSelectedExerciseTypeIndex = value; OnPropertyChange(nameof(userSelectedExerciseTypeIndex)); }
         }
-        public string UserSelectedLocation
+        public int UserSelectedLocationIndex
         {
-            get { return userSelectedLocation; }
-            set { userSelectedLocation = value; OnPropertyChange(nameof(userSelectedLocation)); }
+            get { return userSelectedLocationIndex; }
+            set { userSelectedLocationIndex = value; OnPropertyChange(nameof(userSelectedLocationIndex)); }
         }
-        public long UserSelectedTrainerID
+        public int UserSelectedTrainerIndex
         {
-            get { return userSelectedTrainerID; }
-            set { userSelectedTrainerID = value; OnPropertyChange(nameof(userSelectedTrainerID)); }
+            get { return userSelectedTrainerIndex; }
+            set { userSelectedTrainerIndex = value; OnPropertyChange(nameof(userSelectedTrainerIndex)); }
+        }
+        public int SelectedExerciseIndex
+        {
+            get { return selectedExerciseIndex; }
+            set { selectedExerciseIndex = value; OnPropertyChange(nameof(selectedExerciseIndex)); }
         }
         #endregion
 
@@ -414,13 +421,11 @@ namespace GymManagementSystem.ViewModel
                 {
                     openExView = new RelayCommand(arg =>
                     {
-                        userSelectedTrainerID = 0;
-                        userSelectedLocation = AllLocations[0];
-                        userSelectedExerciseType = AllExerciseTypes[0];
+                        ChosenActivityString.AddRange(AllActivityString);
+                        ResetExercisePanel();
                         CollapseAll();
                         exerciseVis = Visibility.Visible;
-                        OnPropertyChange(nameof(exerciseVis), nameof(mainPanelVis), 
-                            nameof(userSelectedTrainerID), nameof(userSelectedLocation), nameof(UserSelectedExerciseType));
+                        OnPropertyChange(nameof(exerciseVis), nameof(mainPanelVis));
                     });
                 }
                 return openExView;
@@ -518,7 +523,7 @@ namespace GymManagementSystem.ViewModel
         #endregion
 
         #region EXERCISECHOOSEVIEW COMMANDS
-        private ICommand saveExercises, setExerciseSearch;
+        private ICommand saveExercises, setExerciseSearch, resetExerciseSearch;
 
         public ICommand SaveExercises
         {
@@ -528,7 +533,9 @@ namespace GymManagementSystem.ViewModel
                 {
                     saveExercises = new RelayCommand(arg =>
                     {
-
+                        ChosenActivityString = new List<string>();
+                        ChosenActivityString.AddRange(AllActivityString);
+                        ResetExercisePanel();
                     });
                 }
                 return saveExercises;
@@ -543,12 +550,48 @@ namespace GymManagementSystem.ViewModel
                 {
                     setExerciseSearch = new RelayCommand(arg =>
                     {
+                        string shortAddress = string.Empty;
+                        string inputTrainer = string.Empty;
+                        string inputExerciseType = string.Empty;
+                        string inputDate = string.Empty;
 
+                        if (userSelectedLocationIndex >= 0)
+                        {
+                            string[] addressSplit = AllLocations[UserSelectedLocationIndex].Split();
+                            shortAddress = $"{addressSplit[0]} {addressSplit[1].Trim(',')}";
+                        }
+                        if (userSelectedExerciseTypeIndex >= 0) inputExerciseType = AllExerciseTypes[userSelectedExerciseTypeIndex];
+                        if (userSelectedTrainerIndex >= 0) inputTrainer = AllTrainers[userSelectedTrainerIndex];
+                        if (userExerciseDate != null) inputDate = (userExerciseDate ?? DateTime.Now).ToString("dd-MM-yyyy");
+
+                        ChosenActivityString = new List<string>();
+                        foreach (var a in AllActivityString)
+                            if (a.Contains(inputDate) && a.Contains(inputExerciseType) && a.Contains(inputTrainer) && a.Contains(shortAddress))
+                            { ChosenActivityString.Add(a); }
+                        ResetExercisePanel();
                     }, arg => CheckExercisePanel());
                 }
                 return setExerciseSearch;
             }
         }
+
+        public ICommand ResetExerciseSearch
+        {
+            get
+            {
+                if (resetExerciseSearch == null)
+                {
+                    resetExerciseSearch = new RelayCommand(arg =>
+                    {
+                        ChosenActivityString = new List<string>();
+                        ChosenActivityString.AddRange(AllActivityString);
+                        ResetExercisePanel();
+                    });
+                }
+                return resetExerciseSearch;
+            }
+        }
+
         #endregion
 
         #region TRAINERVIEW COMMANDS
@@ -569,6 +612,9 @@ namespace GymManagementSystem.ViewModel
                         if (Activities.AddActivity(NewActivity))
                         {
                             AllActivity.Add(NewActivity);
+                            string[] addressSplit = trainerSelectedLocation.Split();
+                            string shortAddress = $"{addressSplit[0]} {addressSplit[1].Trim(',')}";
+                            AllActivityString.Add(NewActivity.GetStringInputValue(shortAddress, $"{CurrentUserData.Name} {CurrentUserData.Surname}"));
                             exerciseName = string.Empty;
                             maxParticipants = 30;
                             exerciseSelectedHour = 11;
@@ -703,8 +749,21 @@ namespace GymManagementSystem.ViewModel
         #region EXERCISEPANEL FUNCTIONS
         private bool CheckExercisePanel()
         {
-            if (!UserExerciseDate.HasValue) return false;
-            return true;
+            if (userExerciseDate.HasValue || userSelectedTrainerIndex >= 0 || userSelectedLocationIndex >= 0 ||
+                userSelectedExerciseTypeIndex >= 0) return true;
+            return false;
+        }
+
+        private void ResetExercisePanel()
+        {
+            userSelectedExerciseTypeIndex = -1;
+            userSelectedLocationIndex = -1;
+            userSelectedTrainerIndex = -1;
+            selectedExerciseIndex = -1;
+            userExerciseDate = null;
+            OnPropertyChange(nameof(userSelectedExerciseTypeIndex), nameof(userSelectedLocationIndex),
+                nameof(userSelectedTrainerIndex), nameof(selectedExerciseIndex), nameof(userExerciseDate),
+                nameof(ChosenActivityString));
         }
         #endregion
         #endregion
